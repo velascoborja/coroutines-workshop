@@ -153,7 +153,28 @@ class MainViewModel : ViewModel() {
 
     private suspend fun someRequest(): String {
         delay(2000)
+        // throw Exception("This is an exception")
         return "I'm a result"
+    }
+
+    /* This is an example of using runCatching to get a Kotlin.Result object response instead of the standard callbacks */
+    fun loadDataWithResult() {
+        viewModelScope.launch {
+            val result = runCatching {
+                someRequest()
+            }
+
+            result.onSuccess {
+                Log.d("CoroutinesTag", "Success: $it")
+            }
+
+            result.onFailure {
+                Log.d("CoroutinesTag", "Failure: ${it.message}")
+            }
+
+            val alternative = result.getOrElse { "This is an alternative" }
+            Log.d("CoroutinesTag", "Alternative: $alternative")
+        }
     }
 
     override fun onCleared() {

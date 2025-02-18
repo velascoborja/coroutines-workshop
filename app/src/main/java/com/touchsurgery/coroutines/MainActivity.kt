@@ -92,6 +92,12 @@ class MainActivity : ComponentActivity() {
         }) {
             Text("Load data diff thread option 2")
         }
+
+        Button(onClick = {
+            viewModel.loadDataWithResult()
+        }) {
+            Text("Load exception handling")
+        }
     }
 
     @Composable
