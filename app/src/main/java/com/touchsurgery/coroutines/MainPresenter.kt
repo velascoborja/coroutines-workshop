@@ -12,6 +12,13 @@ class MainPresenter {
 
     private val compositeDisposable = CompositeDisposable()
 
+    fun loadSomeData(success: (String) -> Unit, error: (Throwable) -> Unit) {
+        val result = null
+
+        if (result != null) success(result)
+        else error(Exception("Results is null"))
+    }
+
     /* In this case, requests are called sequentially. When the first one finishes,
      * the next one is triggered, and so on. */
     fun loadDataSequentially() {

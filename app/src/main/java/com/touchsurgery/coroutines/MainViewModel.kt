@@ -3,9 +3,12 @@ package com.touchsurgery.coroutines
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,12 +21,18 @@ class MainViewModel : ViewModel() {
     fun loadDataSequentially() {
         viewModelScope.launch {
             Log.d("CoroutinesTag", "Start first call")
-            delay(1000)
+            delay(1000) // Cars request
             Log.d("CoroutinesTag", "Response first call")
 
             Log.d("CoroutinesTag", "Start second call")
-            delay(2000)
+            delay(2000) // Bikes requests
             Log.d("CoroutinesTag", "Response second call")
+
+            Log.d("CoroutinesTag", "Start second call")
+            delay(2000) // E Scooters requests
+            Log.d("CoroutinesTag", "Response second call")
+
+            // Show the stuff
         }
     }
 
@@ -32,13 +41,13 @@ class MainViewModel : ViewModel() {
     fun loadDataInParallel() {
         viewModelScope.launch {
             Log.d("CoroutinesTag", "Start first call")
-            delay(1000)
+            delay(1000) // List of cars
             Log.d("CoroutinesTag", "Response first call")
         }
 
         viewModelScope.launch {
             Log.d("CoroutinesTag", "Start second call")
-            delay(2000)
+            delay(2000) // How do we gather the details of the cars
             Log.d("CoroutinesTag", "Response second call")
         }
     }
@@ -47,6 +56,8 @@ class MainViewModel : ViewModel() {
     * more time, we wait until the last of them finished and then we can do whatever we want with the result */
     fun loadDataAndWait() {
         viewModelScope.launch {
+
+            // Retrieving cars
             val firstRequest = async {
                 val randomDelay = 1000 * Random.nextLong(1, 4)
                 Log.d("CoroutinesTag", "Start first call")
@@ -56,6 +67,7 @@ class MainViewModel : ViewModel() {
                 randomDelay
             }
 
+            // Retrieving bikes
             val secondRequest = async {
                 val randomDelay = 1000 * Random.nextLong(1, 4)
                 Log.d("CoroutinesTag", "Start second call")
@@ -65,6 +77,7 @@ class MainViewModel : ViewModel() {
                 randomDelay
             }
 
+            // Retrieving e-scooters
             val thirdRequest = async {
                 val randomDelay = 1000 * Random.nextLong(1, 4)
                 Log.d("CoroutinesTag", "Start third call")
@@ -74,8 +87,9 @@ class MainViewModel : ViewModel() {
                 randomDelay
             }
 
-            val requests = listOf(firstRequest, secondRequest, thirdRequest)
-            val results = requests.awaitAll()
+            val requests: List<Deferred<Long>> = listOf(firstRequest, secondRequest, thirdRequest)
+
+            val results: List<Long> = requests.awaitAll()
 
             Log.d("CoroutinesTag", "All responses have been received")
 
@@ -153,14 +167,14 @@ class MainViewModel : ViewModel() {
 
     private suspend fun someRequest(): String {
         delay(2000)
-        // throw Exception("This is an exception")
+        throw Exception("This is an exception")
         return "I'm a result"
     }
 
     /* This is an example of using runCatching to get a Kotlin.Result object response instead of the standard callbacks */
     fun loadDataWithResult() {
         viewModelScope.launch {
-            val result = runCatching {
+            val result: Result<String> = runCatching {
                 someRequest()
             }
 

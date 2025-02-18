@@ -1,6 +1,7 @@
 package com.touchsurgery.coroutines
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.touchsurgery.coroutines.ui.theme.CoroutinesTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -45,6 +48,20 @@ class MainActivity : ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                 ) {
+
+                    Button(onClick = {
+                        presenter.loadSomeData(
+                            success = {
+                                Log.d("LoadStuff", it)
+                            },
+                            error = {
+                                Log.e("LoadStuff", "Error gathering data", it)
+                            }
+                        )
+                    }) {
+                        Text("Load data example")
+                    }
+
                     CoroutinesButtons()
                     Spacer(Modifier.height(42.dp))
                     RxButtons()
