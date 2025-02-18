@@ -1,0 +1,80 @@
+# Android Studio and IntelliJ IDEA files
+.idea/
+*.iml
+/.settings/
+
+# Gradle and build files
+.gradle/
+build/
+.cxx/
+.externalNativeBuild/
+.cmake/
+buildSrc/.gradle/
+
+# Local properties and configurations
+local.properties
+
+# Compiled and binary files
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.apk
+*.ap_
+*.aab
+*.ipa
+*.dSYM/
+*.o
+*.lo
+*.la
+*.al
+*.libs
+*.so
+*.dylib
+*.dll
+
+# Version control settings
+.classpath
+.project
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Test and coverage reports
+/test-results/
+out/
+coverage/
+
+# Signature and keystore files
+*.jks
+*.keystore
+
+# Build outputs and generated files
+captures/
+outputs/
+
+# Flutter-specific files (if using a hybrid project)
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.dart_tool/
+pubspec.lock
+
+# Firebase and Google Services
+google-services.json
+firebase/
+
+# Logs and temporary files
+*.log
+crashlytics/
+crashlytics-build.log
+
+# Fastlane-related files
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
